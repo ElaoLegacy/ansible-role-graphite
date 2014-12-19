@@ -1,0 +1,14 @@
+---
+
+elao_graphite:
+    temp_dir: /tmp/graphite-web
+    version:  0.9.12
+    root_dir: /opt/graphite
+
+elao_carbon:
+    temp_dir: /tmp/carbon
+    version:  master
+
+elao_whisper:
+    temp_dir:  /tmp/whisper
+    version:  0.9.12

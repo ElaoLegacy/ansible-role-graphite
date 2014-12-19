@@ -1,0 +1,57 @@
+---
+
+- name: Cloning whisper repository
+  git: >
+    repo=git@github.com:graphite-project/whisper.git
+    dest={{ elao_whisper.temp_dir|default("/tmp/whisper") }}
+    version={{ elao_whisper.version|default("O.9.12") }}
+    accept_hostkey=True
+  sudo: yes
+
+- name: Installing whisper
+  command: python setup.py install
+  args:
+    chdir: "{{ elao_whisper.temp_dir|default('/tmp/whisper') }}"
+  sudo: yes
+
+- name: Cloning carbon repository
+  git: >
+    repo=git@github.com:gfaivre/carbon.git
+    dest={{ elao_carbon.temp_dir|default("/tmp/carbon") }}
+    version={{ elao_carbon.version|default("O.9.12") }}
+    accept_hostkey=True
+  sudo: yes
+
+- name: Cloning graphite-web repository
+  git: >
+    repo=https://github.com/graphite-project/graphite-web.git
+    dest={{elao_graphite.temp_dir|default("/tmp/graphite-web") }}
+    version={{ elao_graphite.version|default("O.9.12") }}
+    accept_hostkey=True
+  sudo: yes
+
+- name: Installing carbon
+  command: python setup.py install
+  args:
+    chdir: "{{ elao_carbon.temp_dir|default('/tmp/carbon') }}"
+  sudo: yes
+
+- name: Installing graphite-web
+  command: python setup.py install
+  args:
+    chdir: "{{ elao_graphite.temp_dir|default('/tmp/graphite-web') }}"
+  sudo: yes
+
+- name: Copying init.d scripts
+  command: cp {{ elao_carbon.temp_dir|default("/tmp/carbon") }}/distro/debian/init.d/{{ item }}  /etc/init.d/
+  with_items:
+    - carbon-aggregator
+    - carbon-cache
+    - carbon-relay
+  sudo: yes
+
+- name: Loading init.d scripts
+  command: sh distro/debian/misc/postinstall
+  args:
+    chdir: "{{ elao_carbon.temp_dir|default('/tmp/carbon') }}"
+  sudo: yes

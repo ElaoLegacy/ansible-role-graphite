@@ -1,0 +1,13 @@
+---
+
+- name: Installing Python packages
+  pip:  name={{ item.name }} {% if item.version is defined %}version={{ item.version }}{% endif %}
+  sudo: yes
+  with_items:
+    - { name: django,  version:   1.5 }
+    - { name: twisted, version:   11.0.0 }
+    - { name: python-memcached, version:  1.47 }
+    - { name: txAMQP, version:    0.4 }
+    - { name: django-tagging, version:    0.3.2 }
+    - { name: gunicorn, version: 19.1.1 }
+    - { name: "git+git://github.com/graphite-project/whisper.git#egg=whisper", version:    0.9.12 }
