@@ -1,9 +1,11 @@
 ---
 
 elao_graphite:
-    temp_dir: /tmp/graphite-web
-    version:  0.9.12
-    root_dir: /opt/graphite
+    temp_dir:         /tmp/graphite-web
+    version:          0.9.12
+    root_dir:         /opt/graphite
+    nginx_address:    "{{ ansible_venet0_0.ipv4.address }}"
+    server_name:      grafana.tuxboard.com
 
 elao_carbon:
     temp_dir: /tmp/carbon

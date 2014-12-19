@@ -1,0 +1,13 @@
+---
+
+- name: Configuring Nginx host
+  template: >
+    src=graphite.j2
+    dest=/etc/nginx/sites-available/graphite
+  sudo: yes
+
+- name: Setting up
+  file: src=/etc/nginx/sites-available/graphite dest=/etc/nginx/sites-enabled/graphite state=link
+  sudo: yes
+  notify:
+    - nginx restart

@@ -1,19 +1,5 @@
 ---
 
-- name: Cloning whisper repository
-  git: >
-    repo=git@github.com:graphite-project/whisper.git
-    dest={{ elao_whisper.temp_dir|default("/tmp/whisper") }}
-    version={{ elao_whisper.version|default("O.9.12") }}
-    accept_hostkey=True
-  sudo: yes
-
-- name: Installing whisper
-  command: python setup.py install
-  args:
-    chdir: "{{ elao_whisper.temp_dir|default('/tmp/whisper') }}"
-  sudo: yes
-
 - name: Cloning carbon repository
   git: >
     repo=git@github.com:gfaivre/carbon.git

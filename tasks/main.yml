@@ -1,5 +1,7 @@
 ---
 
 - include: packages.yml
-- include: pip.yml
 - include: install.yml
+- include: pip.yml
+- include: config.yml
+- include: nginx.yml

@@ -1,0 +1,19 @@
+---
+
+- name: Enabling graphite webapp
+  command: cp {{ item.src }}  {{ item.dst }}
+  with_items:
+    - { src: "{{ elao_graphite.root_dir|default('/opt/graphite') }}/conf/graphite.wsgi.example", dst: "{{ elao_graphite.root_dir|default('/opt/graphite') }}/webapp/wsgi.py"}
+    - { src: "{{ elao_graphite.root_dir|default('/opt/graphite') }}/webapp/graphite/local_settings.py.example", dst: "{{ elao_graphite.root_dir|default('/opt/graphite') }}/webapp/graphite/local_settings.py"}
+  sudo: yes
+
+#- name: Generating secret key
+#  lineinfile: |
+#    dest    ={{ elao_graphite.root_dir|default('/opt/graphite') }}/webapp/graphite/settings.py 
+#    state   =present 
+#    regexp  ="^%SECRET_KEY = '(UNSAFE_DEFAULT)'"
+#    line    ="SECRET_KEY = '(\1blabla)'"
+
+- name: Loading databases schemes
+  command: python {{ elao_graphite.root_dir|default('/opt/graphite') }}/webapp/graphite/manage.py syncdb --noinput
+  sudo: yes
